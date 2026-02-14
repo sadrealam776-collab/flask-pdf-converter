@@ -5,11 +5,12 @@ from pdf2docx import Converter
 
 app = Flask(__name__)
 
-# CONFIGURATION
+# --- CONFIGURATION ---
 UPLOAD_FOLDER = 'uploads'
 CONVERTED_FOLDER = 'converted'
 ALLOWED_EXTENSIONS = {'pdf'}
 
+# Create folders if they don't exist
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(CONVERTED_FOLDER, exist_ok=True)
 
@@ -25,40 +26,44 @@ def index():
 
 @app.route('/convert', methods=['POST'])
 def convert_file():
+    # 1. Check if file was uploaded
     if 'file' not in request.files:
-        return jsonify({"error": "No file part"}), 400
+        return jsonify({"error": "No file uploaded"}), 400
     
     file = request.files['file']
+    
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
         
     if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        pdf_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(pdf_path)
-        
-        docx_filename = filename.rsplit('.', 1)[0] + '.docx'
-        docx_path = os.path.join(app.config['CONVERTED_FOLDER'], docx_filename)
-        
         try:
-            # --- THE "SPACE FIX" IS HERE ---
-            cv = Converter(pdf_path)
+            # 2. Save the PDF
+            filename = secure_filename(file.filename)
+            pdf_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(pdf_path)
             
-            # We use a very low x_tolerance (0.5) to stop words from sticking together.
+            # 3. Define Output Path
+            docx_filename = filename.rsplit('.', 1)[0] + '.docx'
+            docx_path = os.path.join(app.config['CONVERTED_FOLDER'], docx_filename)
+            
+            # 4. RUN CONVERSION (With Spacing Fix)
+            cv = Converter(pdf_path)
             cv.convert(docx_path, start=0, end=None, **{
-                'x_tolerance': 0.5,      # LOWER this number to separate words (Try 0.5, then 0.2)
-                'y_tolerance': 2.0,      # Keeps lines separate
-                'keep_al': True,         # Enforces strict layout
-                'ocr': 0                 # No OCR (faster)
+                'x_tolerance': 0.25,  # Fixes "merged words"
+                'keep_al': True,      # Strict layout
+                'ocr': 0              # Disable OCR (prevents crashes if Tesseract is missing)
             })
             cv.close()
             
+            # 5. Send Success Response
             return jsonify({
                 "status": "success", 
                 "download_url": f"/download/{docx_filename}"
             })
 
         except Exception as e:
+            # This prints the REAL error to your terminal so you can see it
+            print(f"❌ SERVER ERROR: {e}") 
             return jsonify({"error": str(e)}), 500
 
     return jsonify({"error": "Invalid file type"}), 400
@@ -67,18 +72,11 @@ def convert_file():
 def download_file(filename):
     filepath = os.path.join(app.config['CONVERTED_FOLDER'], filename)
     
-    @after_this_request
-    def remove_file(response):
-        try:
-            # Clean up files
-            pdf_name = filename.rsplit('.', 1)[0] + '.pdf'
-            pdf_path = os.path.join(app.config['UPLOAD_FOLDER'], pdf_name)
-            if os.path.exists(pdf_path): os.remove(pdf_path)
-        except Exception as e:
-            app.logger.error("Error removing file", e)
-        return response
-        
-    return send_file(filepath, as_attachment=True)
+    if os.path.exists(filepath):
+        return send_file(filepath, as_attachment=True)
+    else:
+        return "File not found", 404
 
 if __name__ == '__main__':
+    # For local testing
     app.run(debug=True, port=5000)
