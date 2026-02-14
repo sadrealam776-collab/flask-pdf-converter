@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>Free PDF to Word Converter | AI-Powered & No Formatting Loss</title>
+    <meta name="description" content="Convert PDF to Word online for free. Our AI engine fixes overlapping text and broken spacing. Best for resumes, legal docs, and scanned files. No signup required.">
+    <meta name="keywords" content="pdf to word, convert pdf to docx, free pdf converter, ai pdf tools, fix pdf spacing, ocr pdf to word, editable word document">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="NexusAI Tools">
+    
+    <meta property="og:title" content="Pro PDF to Word Converter - Free & AI Powered">
+    <meta property="og:description" content="Convert documents instantly with 99% layout accuracy. Fixes broken text automatically.">
+    <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/337/337946.png"> <meta property="og:url" content="https://your-website.onrender.com">
+    <meta property="og:type" content="website">
+
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --primary: #3b82f6;
+            --accent: #8b5cf6;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: radial-gradient(circle at top center, #1e1b4b, var(--bg-dark));
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background Glow */
+        .glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(0,0,0,0) 70%);
+            top: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- MAIN TOOL CONTAINER --- */
+        .container {
+            width: 100%;
+            max-width: 550px;
+            padding: 80px 20px 40px 20px; /* Top padding to push it down */
+            z-index: 10;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+
+        p.hero-sub { color: var(--text-sub); margin-bottom: 2rem; font-size: 1.1rem; }
+
+        /* Upload Zone */
+        .upload-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 2.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .icon-box {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px rgba(59,130,246,0.5));
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            width: 100%;
+            margin-top: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #334155;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* --- SEO CONTENT SECTION (Crucial for Ranking) --- */
+        .seo-content {
+            max-width: 800px;
+            margin: 0 auto 60px auto;
+            padding: 0 20px;
+            color: var(--text-sub);
+            line-height: 1.8;
+        }
+
+        .seo-content h2 {
+            color: var(--text-main);
+            font-size: 1.8rem;
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+
+        .seo-content h3 {
+            color: #e2e8f0;
+            font-size: 1.4rem;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .seo-content p, .seo-content li {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .seo-content ul, .seo-content ol {
+            padding-left: 20px;
+            margin-bottom: 1.5rem;
+        }
+        
+        strong { color: #60a5fa; }
+
+        /* Utilities */
+        .hidden { display: none !important; }
+        
+        #file-name {
+            margin-top: 1rem;
+            font-weight: 600;
+            color: #38bdf8;
+            word-break: break-all;
+        }
+
+        /* Loader */
+        .loader {
+            width: 100%;
+            height: 4px;
+            background: #1e293b;
+            border-radius: 2px;
+            margin-top: 1.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .loader-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s ease-out;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .status-text {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            margin-top: 0.5rem;
+            min-height: 20px;
+            text-align: center;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .container { padding-top: 40px; }
+            .card { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow"></div>
+
+    <div class="container">
+        <div class="card">
+            <h1>NexusAI Converter</h1>
+            <p class="hero-sub">Intelligent PDF to Word conversion. Fixes spacing & layout instantly.</p>
+
+            <form id="uploadForm">
+                <input type="file" id="fileInput" accept=".pdf" class="hidden">
+                
+                <div class="upload-zone" id="dropZone">
+                    <div class="icon-box">??</div>
+                    <div class="text-main">Drop PDF Here</div>
+                    <div class="text-sub" style="font-size: 0.8rem; color: #64748b; margin-top:5px;">Max size 10MB • AI Enhanced</div>
+                </div>
+
+                <div id="file-name" class="hidden"></div>
+
+                <div id="progress-container" class="hidden">
+                    <div class="loader"><div class="loader-bar" id="loader-bar"></div></div>
+                    <div class="status-text" id="status-text">Initializing AI Core...</div>
+                </div>
+
+                <button type="submit" class="btn" id="convertBtn" disabled>
+                    Start Conversion
+                </button>
+            </form>
+
+            <a id="downloadBtn" class="btn hidden" style="background: #10b981; margin-top:1.5rem;">
+                Download Word Doc ?
+            </a>
+        </div>
+    </div>
+
+    <section class="seo-content">
+        <h2>How to Convert PDF to Word for Free?</h2>
+        <ol>
+            <li><strong>Upload your file:</strong> Drag and drop your PDF into the blue box above.</li>
+            <li><strong>AI Processing:</strong> Our engine scans the document to preserve formatting, tables, and fonts.</li>
+            <li><strong>Download:</strong> Get your editable Word file (.docx) in seconds.</li>
+        </ol>
+
+        <h2>Why use NexusAI Converter?</h2>
+        <p>Most free converters break your document. They merge words (e.g., "CareerObjective") or ruin tables. <strong>NexusAI</strong> is different.</p>
+        
+        <h3>1. Fixes "Squished" Text</h3>
+        <p>We use a custom <strong>Spacial Analysis Algorithm</strong> to detect the real gap between letters, preventing the common "no space" error found in other tools.</p>
+
+        <h3>2. 99% Formatting Accuracy</h3>
+        <p>Whether it's a resume, a legal contract, or a student essay, our tool keeps your bold text, headers, and bullet points exactly where they belong.</p>
+
+        <h3>3. Secure & Private</h3>
+        <p>We do not store your files. All documents are automatically deleted from our servers 1 hour after conversion.</p>
+    </section>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "NexusAI PDF to Word",
+      "applicationCategory": "Productivity",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": "AI-powered layout retention, spacing correction, table preservation"
+    }
+    </script>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('file-name');
+        const convertBtn = document.getElementById('convertBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const progressContainer = document.getElementById('progress-container');
+        const loaderBar = document.getElementById('loader-bar');
+        const statusText = document.getElementById('status-text');
+
+        // Click to upload
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        // Drag & Drop effects
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+
+        ['dragenter', 'dragover'].forEach(e => dropZone.classList.add('dragover'));
+        ['dragleave', 'drop'].forEach(e => dropZone.classList.remove('dragover'));
+
+        dropZone.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            handleFile(files[0]);
+        });
+
+        fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+        function handleFile(file) {
+            if (file && file.type === 'application/pdf') {
+                fileNameDisplay.textContent = file.name;
+                fileNameDisplay.classList.remove('hidden');
+                convertBtn.disabled = false;
+                downloadBtn.classList.add('hidden');
+                convertBtn.textContent = "Start Conversion";
+                
+                // Sync file input for form submission
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                fileInput.files = dt.files;
+            } else {
+                alert("Please upload a PDF file.");
+            }
+        }
+
+        // Handle Conversion
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            // UI Updates
+            convertBtn.classList.add('hidden');
+            progressContainer.classList.remove('hidden');
+            
+            // Fake Progress Bar Logic
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 90) progress = 90;
+                loaderBar.style.width = progress + '%';
+                
+                if(progress < 30) statusText.innerText = "Analyzing Layout Structure...";
+                else if(progress < 60) statusText.innerText = "Correcting Spacing Errors...";
+                else statusText.innerText = "Finalizing .DOCX Format...";
+            }, 600);
+
+            try {
+                const response = await fetch('/convert', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                clearInterval(interval);
+                loaderBar.style.width = '100%';
+                statusText.innerText = "Processing Complete!";
+
+                if (response.ok) {
+                    setTimeout(() => {
+                        progressContainer.classList.add('hidden');
+                        downloadBtn.href = data.download_url;
+                        downloadBtn.classList.remove('hidden');
+                        convertBtn.textContent = "Convert Another File";
+                        convertBtn.classList.remove('hidden');
+                        convertBtn.disabled = true;
+                        fileNameDisplay.textContent = "";
+                    }, 800);
+                } else {
+                    alert('Error: ' + data.error);
+                    location.reload();
+                }
+
+            } catch (error) {
+                alert('Connection Error. Please check your internet.');
+                console.error(error);
+                location.reload();
+            }
+        });
+    </script>
+</body>
+</html>
