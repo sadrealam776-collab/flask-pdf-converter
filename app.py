@@ -22,7 +22,17 @@ def allowed_file(filename):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    try:
+        # 1. Try to load it normally (Standard Flask way)
+        return render_template('index.html')
+        
+    except UnicodeDecodeError:
+        # 2. If that fails (because of Windows saving), read it manually
+        # This forces Python to read the "Windows-style" text without crashing
+        with open('templates/index.html', 'r', encoding='cp1252', errors='ignore') as f:
+            return f.read()
+    except Exception as e:
+        return f"Critical Error loading file: {e}"
 
 @app.route('/convert', methods=['POST'])
 def convert_file():
@@ -80,3 +90,4 @@ def download_file(filename):
 if __name__ == '__main__':
     # For local testing
     app.run(debug=True, port=5000)
+
